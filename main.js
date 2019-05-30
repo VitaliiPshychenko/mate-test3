@@ -1,7 +1,8 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const articleList = document.getElementById('article-list')  
+  const container = document.getElementById('article-list')
+  const articleList = new ArticleList(container);
   let listOfArticles;
 
   function getXhrResponse(link, callback) {
@@ -18,14 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
   
   getXhrResponse('http://my-json-server.typicode.com/mate-academy/literary-blog/articles', (response) => {
     listOfArticles = response;
-    
+    getArticleList()
   })
 
-  
-  const searh = document.querySelector('input');
-
-  searh.addEventListener('input', () => {
-    
-  })
-
+  function getArticleList() {
+    listOfArticles.forEach(article => {
+      const newArticle = new Article(article.title, article.author, article.text);
+      articleList.addArticle(newArticle);
+    })
+    articleList.render();
+  }
 });
